@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway - Tema Hitam Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(28, 28, 28, 0.9) 0%, rgba(10, 10, 10, 0.99) 90%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .payment-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .payment-card {
+            background: linear-gradient(145deg, #1a1a1a, #151515);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+        
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b00, #ffa500);
+        }
+        
+        .payment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #222;
+        }
+        
+        .dana-icon {
+            color: #118eea;
+            background: rgba(17, 142, 234, 0.1);
+        }
+        
+        .qris-icon {
+            color: #00aa13;
+            background: rgba(0, 170, 19, 0.1);
+        }
+        
+        .telegram-icon {
+            color: #0088cc;
+            background: rgba(0, 136, 204, 0.1);
+        }
+        
+        .payment-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        
+        .payment-subtitle {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .payment-details {
+            margin-bottom: 25px;
+        }
+        
+        .payment-info {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #ff6b00;
+        }
+        
+        .payment-label {
+            font-weight: 600;
+            color: #ccc;
+        }
+        
+        .payment-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(90deg, #333, #444);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background: linear-gradient(90deg, #444, #555);
+            transform: scale(1.02);
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .copy-btn.copied {
+            background: linear-gradient(90deg, #00aa13, #00cc15);
+        }
+        
+        .qris-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .qris-image {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 2px solid #333;
+        }
+        
+        .qris-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .qris-name {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal untuk gambar QRIS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(255, 107, 0, 0.3);
+            animation: zoomIn 0.3s;
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #ff6b00;
+        }
+        
+        .channel-info {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, #0088cc, #006699);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        .telegram-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.5);
+            background: linear-gradient(90deg, #0099e6, #0077b3);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status-premium {
+            background: linear-gradient(90deg, #ffb347, #ffcc33);
+            color: #000;
+        }
+        
+        .status-not-premium {
+            background: linear-gradient(90deg, #666, #888);
+            color: #fff;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #222;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1001;
+            border-left: 4px solid #ff6b00;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .payment-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>Payment Gateway</h1>
+            <p>Lakukan pembayaran dengan aman dan cepat melalui metode berikut</p>
+        </header>
+        
+        <div class="payment-container">
+            <!-- Dana Payment Card -->
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon dana-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h2 class="payment-title">DANA</h2>
+                        <p class="payment-subtitle">Transfer melalui aplikasi DANA</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details">
+                    <div class="payment-info">
+                        <div>
+                            <div class="payment-label">Nomor DANA</div>
+                            <div class="payment-value">083152987363</div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-not-premium">BELUM PREMIUM</span>
+                        </div>
+                    </div>
+                    
+                    <button class="copy-btn" id="copyDana">
+                        <i class="far fa-copy"></i>
+                        Salin Nomor DANA
+                    </button>
+                </div>
+                
+                <div class="qris-container">
+                    <p class="payment-subtitle">Atau scan QRIS di bawah ini</p>
+                    <img src="https://files.catbox.moe/bjvotq.jpg" alt="QRIS Payment" class="qris-image" id="qrisImage">
+                    <p class="qris-name">Ahmad Setio Wahyudi</p>
+                </div>
+            </div>
+            
+            <!-- Channel Info Card -->
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon telegram-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div>
+                        <h2 class="payment-title">Channel Informasi</h2>
+                        <p class="payment-subtitle">Update informasi dan konfirmasi pembayaran</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details">
+                    <p style="margin-bottom: 20px; color: #ccc;">Bergabunglah dengan channel Telegram kami untuk mendapatkan informasi terbaru, konfirmasi pembayaran, dan penawaran eksklusif.</p>
+                    
+                    <div class="channel-info">
+                        <a href="https://t.me/wahyuchannel0" target="_blank" class="telegram-btn">
+                            <i class="fab fa-telegram"></i>
+                            Join Channel Telegram
+                        </a>
+                        <p style="margin-top: 15px; color: #aaa; font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> Klik tombol di atas untuk bergabung
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 136, 204, 0.1); border-radius: 10px;">
+                    <h3 style="margin-bottom: 10px; color: #0088cc;"><i class="fas fa-lightbulb"></i> Tips Pembayaran</h3>
+                    <ul style="padding-left: 20px; color: #ccc;">
+                        <li>Simpan bukti transfer setelah melakukan pembayaran</li>
+                        <li>Konfirmasi pembayaran melalui channel Telegram</li>
+                        <li>Pastikan nomor DANA atau QRIS sesuai dengan yang tertera</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Payment Gateway. Semua hak dilindungi.</p>
+            <p style="margin-top: 5px;">Dibuat dengan <i class="fas fa-heart" style="color: #ff6b00;"></i> oleh Ahmad Setio Wahyudi</p>
+        </footer>
+    </div>
+    
+    <!-- Modal untuk gambar QRIS -->
+    <div id="qrisModal" class="modal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <!-- Notifikasi -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Berhasil disalin ke clipboard!</span>
+    </div>
+    
+    <script>
+        // Fungsi untuk menyalin nomor DANA
+        document.getElementById('copyDana').addEventListener('click', function() {
+            const danaNumber = '083152987363';
+            navigator.clipboard.writeText(danaNumber).then(() => {
+                // Tampilkan notifikasi
+                showNotification('Nomor DANA berhasil disalin!');
+                
+                // Ubah tampilan tombol sementara
+                const button = document.getElementById('copyDana');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+                showNotification('Gagal menyalin, coba salin manual');
+            });
+        });
+        
+        // Fungsi untuk memperbesar gambar QRIS
+        const qrisImage = document.getElementById('qrisImage');
+        const modal = document.getElementById('qrisModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        
+        qrisImage.addEventListener('click', function() {
+            modal.style.display = 'flex';
+            modalImage.src = this.src;
+        });
+        
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Efek tambahan untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animasi untuk kartu payment
+            const cards = document.querySelectorAll('.payment-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s, transform 0.5s';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+            
+            // Efek hover untuk semua tombol copy
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('copied')) {
+                        this.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
